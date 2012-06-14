@@ -1,13 +1,13 @@
 %define		pkg	graceful-fs
 Summary:	'fs' module with incremental back-off on EMFILE
 Name:		nodejs-%{pkg}
-Version:	1.1.4
+Version:    1.1.8
 Release:	1
 License:	MIT
 Group:		Development/Libraries
 URL:		https://github.com/isaacs/node-graceful-fs
 Source0:	http://registry.npmjs.org/graceful-fs/-/%{pkg}-%{version}.tgz
-# Source0-md5:	21817800c3cf55b78c710063821fe5d6
+# Source0-md5:	c4f380ab8968dc65b42e5bfb9b605429
 BuildRequires:	rpmbuild(macros) >= 1.634
 Requires:	nodejs
 BuildArch:	noarch
