@@ -1,7 +1,7 @@
 %define		pkg	graceful-fs
 Summary:	'fs' module with incremental back-off on EMFILE
 Name:		nodejs-%{pkg}
-Version:    1.1.8
+Version:	1.1.8
 Release:	1
 License:	MIT
 Group:		Development/Libraries
