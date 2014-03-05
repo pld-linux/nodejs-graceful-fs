@@ -1,22 +1,33 @@
 %define		pkg	graceful-fs
-Summary:	'fs' module with incremental back-off on EMFILE
+Summary:	A drop-in replacement for the fs module, making various improvements
 Name:		nodejs-%{pkg}
-Version:	1.2.0
+Version:	2.0.2
 Release:	1
 License:	MIT
 Group:		Development/Libraries
 URL:		https://github.com/isaacs/node-graceful-fs
 Source0:	http://registry.npmjs.org/graceful-fs/-/%{pkg}-%{version}.tgz
-# Source0-md5:	2108e283f1d0813302c8536418803ef6
+# Source0-md5:	826289bae83044c6e62e15b29a48472b
 BuildRequires:	rpmbuild(macros) >= 1.634
-Requires:	nodejs
+Requires:	nodejs >= 0.4.0
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
-Just like node.js' fs module, but it does an incremental back-off when
-EMFILE is encountered. Useful in asynchronous situations where one
-needs to try to open lots and lots of files.
+The improvements are meant to normalize behavior across different
+platforms and environments, and to make filesystem access more
+resilient to errors.
+
+Improvements over fs module:
+- Queues up `open` and `readdir` calls, and retries them once
+  something closes if there is an EMFILE error from too many file
+  descriptors.
+- fixes `lchmod` for Node versions prior to 0.6.2.
+- implements `fs.lutimes` if possible. Otherwise it becomes a noop.
+- ignores `EINVAL` and `EPERM` errors in `chown`, `fchown` or `lchown`
+  if the user isn't root.
+- makes `lchmod` and `lchown` become noops, if not available.
+- retries reading a file if `read` results in EAGAIN error.
 
 %prep
 %setup -qc
@@ -26,7 +37,7 @@ mv package/* .
 rm -rf $RPM_BUILD_ROOT
 
 install -d $RPM_BUILD_ROOT%{nodejs_libdir}/%{pkg}
-cp -p %{pkg}.js package.json $RPM_BUILD_ROOT%{nodejs_libdir}/%{pkg}
+cp -p %{pkg}.js polyfills.js package.json $RPM_BUILD_ROOT%{nodejs_libdir}/%{pkg}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
