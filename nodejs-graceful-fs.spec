@@ -1,13 +1,13 @@
 %define		pkg	graceful-fs
 Summary:	A drop-in replacement for the fs module, making various improvements
 Name:		nodejs-%{pkg}
-Version:	2.0.2
+Version:	3.0.2
 Release:	1
 License:	MIT
 Group:		Development/Libraries
-URL:		https://github.com/isaacs/node-graceful-fs
 Source0:	http://registry.npmjs.org/graceful-fs/-/%{pkg}-%{version}.tgz
-# Source0-md5:	826289bae83044c6e62e15b29a48472b
+# Source0-md5:	d1a68537b1610dc18a1b896b10f6052d
+URL:		https://github.com/isaacs/node-graceful-fs
 BuildRequires:	rpmbuild(macros) >= 1.634
 Requires:	nodejs >= 0.4.0
 BuildArch:	noarch
@@ -35,14 +35,13 @@ mv package/* .
 
 %install
 rm -rf $RPM_BUILD_ROOT
-
 install -d $RPM_BUILD_ROOT%{nodejs_libdir}/%{pkg}
-cp -p %{pkg}.js polyfills.js package.json $RPM_BUILD_ROOT%{nodejs_libdir}/%{pkg}
+cp -p *.js package.json $RPM_BUILD_ROOT%{nodejs_libdir}/%{pkg}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc README.md
+%doc README.md LICENSE
 %{nodejs_libdir}/%{pkg}
